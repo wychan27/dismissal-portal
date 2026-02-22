@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dismissal Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #7b1c2e;
+            --navy-dark: #5c1220;
+            --navy-light: #8f2236;
+            --gold: #c4a882;
+            --gold-light: #d6bfa0;
+            --cream: #faf7f2;
+            --cream-dark: #ede6d8;
+            --white: #ffffff;
+            --text-body: #3a3228;
+            --text-muted: #8a7a6a;
+            --border: #d9cfc0;
+            --error: #a01020;
+            --success: #2d6a4f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cream);
+            color: var(--text-body);
+            min-height: 100vh;
+        }
+
+        /* ── Header Banner ── */
+        .site-header {
+            background-color: var(--navy);
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .school-name {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 1.1rem;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        .site-header .school-name span {
+            color: var(--gold);
+        }
+
+        .header-tag {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            background-color: var(--gold);
+            background-image: linear-gradient(135deg, #d4af37 0%, #b5956e 100%);
+            padding: 64px 40px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 60px,
+                rgba(255,255,255,0.05) 60px,
+                rgba(255,255,255,0.05) 61px
+            );
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: rgba(255,255,255,0.88);
+        }
+
+        .hero-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.85);
+            font-style: italic;
+            max-width: 460px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero-divider {
+            width: 48px;
+            height: 2px;
+            background: rgba(255,255,255,0.6);
+            margin: 22px auto 0;
+        }
+
+        /* ── Main Layout ── */
+        .form-wrapper {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--white);
+            border-radius: 2px;
+            box-shadow: 0 2px 24px rgba(26,39,68,0.08), 0 1px 4px rgba(26,39,68,0.04);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--navy);
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-header-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-header-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--navy);
+        }
+
+        .card-header h3 {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 32px 32px 28px;
+        }
+
+        /* ── Form Fields ── */
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 28px;
+        }
+
+        .field-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.92rem;
+            color: var(--text-body);
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: 2px;
+            padding: 11px 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: none;
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(26,39,68,0.08);
+            background: var(--white);
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+
+        .select-wrap::after {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--navy);
+            pointer-events: none;
+        }
+
+        /* ── Day Schedule Cards ── */
+        .schedule-section {
+            background: var(--white);
+            border-radius: 2px;
+            box-shadow: 0 2px 24px rgba(26,39,68,0.08), 0 1px 4px rgba(26,39,68,0.04);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            background-color: var(--navy);
+            padding: 18px 32px;
+        }
+
+        .schedule-header h3 {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .days-grid {
+            padding: 0;
+        }
+
+        .day-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr 1fr;
+            align-items: center;
+            gap: 0;
+            border-bottom: 1px solid var(--cream-dark);
+            transition: background 0.15s;
+        }
+
+        .day-row:last-child {
+            border-bottom: none;
+        }
+
+        .day-row:hover {
+            background: rgba(248,245,239,0.5);
+        }
+
+        .day-label {
+            padding: 20px 24px;
+            background: var(--cream-dark);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .day-label span {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .day-field {
+            padding: 16px 20px;
+            border-right: 1px solid var(--cream-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .day-field:last-child {
+            border-right: none;
+        }
+
+        .day-field label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .day-field input,
+        .day-field select {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-body);
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: 2px;
+            padding: 9px 12px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+        }
+
+        .day-field input:focus,
+        .day-field select:focus {
+            outline: none;
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(26,39,68,0.08);
+            background: var(--white);
+        }
+
+        .day-select-wrap {
+            position: relative;
+        }
+
+        .day-select-wrap::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid var(--navy);
+            pointer-events: none;
+        }
+
+        /* ── Submit Button ── */
+        .submit-area {
+            text-align: center;
+            padding: 8px 0 0;
+        }
+
+        .submit-btn {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--white);
+            background: var(--navy);
+            border: 2px solid var(--navy);
+            border-radius: 2px;
+            padding: 16px 52px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: transparent;
+            color: var(--navy);
+            box-shadow: 0 4px 20px rgba(26,39,68,0.18);
+        }
+
+        .submit-note {
+            margin-top: 14px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            background: var(--navy-dark);
+            padding: 24px 40px;
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.08em;
+        }
+
+        /* ── Error Messages ── */
+        .field-error {
+            display: none;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            color: var(--error);
+            margin-top: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        .field-error.visible {
+            display: block;
+        }
+
+        .field input.invalid,
+        .field select.invalid,
+        .day-field input.invalid,
+        .day-field select.invalid {
+            border-color: var(--error);
+            background: #fff5f6;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .hero { padding: 40px 24px 36px; }
+            .card-body { padding: 24px 20px; }
+            .field-grid { grid-template-columns: 1fr; }
+
+            .day-row {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .day-label {
+                grid-column: 1 / -1;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 12px 20px;
+            }
+
+            .day-field {
+                border-right: none;
+                border-bottom: 1px solid var(--cream-dark);
+                padding: 12px 16px;
+            }
+
+            .site-header { padding: 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="school-name"><span>Saint David's</span> School</div>
+        <a href="welcome-page.html" class="header-tag" target="_blank" style="color:rgba(255,255,255,0.55); text-decoration:none; transition: color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Welcome Page</a>
+        <a href="https://www.saintdavids.org" class="header-tag" target="_blank" style="color:rgba(255,255,255,0.55); text-decoration:none; transition: color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Home</a>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-eyebrow">Dismissal Services</div>
+        <h1>Register Your Child for<br><em>School Dismissal</em></h1>
+        <p class="hero-sub">Please complete all fields below to enroll your son in our daily dismissal program.</p>
+        <div class="hero-divider"></div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-wrapper">
+
+        <!-- Child Information -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                </div>
+                <h3>Child Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="firstName">Child's First Name</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="First name">
+                        <span class="field-error" id="err-firstName">Please fill in this field.</span>
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Child's Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required placeholder="Last name">
+                        <span class="field-error" id="err-lastName">Please fill in this field.</span>
+                    </div>
+                    <div class="field">
+                        <label for="birthdayDate">Child's Date of Birth</label>
+                        <input type="date" id="birthdayDate" name="birthdayDate" required>
+                        <span class="field-error" id="err-birthdayDate">Please fill in this field.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Information -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </div>
+                <h3>Parent / Guardian Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="parentFirstName">Parent's First Name</label>
+                        <input type="text" id="parentFirstName" name="parentFirstName" required placeholder="First name">
+                        <span class="field-error" id="err-parentFirstName">Please fill in this field.</span>
+                    </div>
+                    <div class="field">
+                        <label for="parentLastName">Parent's Last Name</label>
+                        <input type="text" id="parentLastName" name="parentLastName" required placeholder="Last name">
+                        <span class="field-error" id="err-parentLastName">Please fill in this field.</span>
+                    </div>
+                    <div class="field">
+                        <label for="parentPhone">Phone Number</label>
+                        <input type="tel" id="parentPhone" name="parentPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required placeholder="000-000-0000" oninput="formatPhone(this)">
+                        <span class="field-error" id="err-parentPhone">Please fill in this field.</span>
+                    </div>
+                    <div class="field">
+                        <label for="parentEmail">Email Address</label>
+                        <input type="email" id="parentEmail" name="parentEmail" required placeholder="email@example.com">
+                        <span class="field-error" id="err-parentEmail">Please fill in this field.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pickup Schedule -->
+        <div class="schedule-section">
+            <div class="schedule-header">
+                <h3>Child Pickup Schedule</h3>
+            </div>
+            <div class="days-grid">
+
+                <!-- Column Headers -->
+                <div class="day-row" style="background:var(--cream-dark); border-bottom: 2px solid var(--border);">
+                    <div class="day-label" style="background: transparent; border-right: 1px solid var(--border);">
+                        <span style="font-family:'Lato',sans-serif; font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Day</span>
+                    </div>
+                    <div class="day-field" style="background:transparent;">
+                        <label>Pickup Type</label>
+                    </div>
+                    <div class="day-field" style="background:transparent;">
+                        <label>Pickup Time</label>
+                    </div>
+                    <div class="day-field" style="background:transparent;">
+                        <label>Location</label>
+                    </div>
+                </div>
+
+                <!-- Monday -->
+                <div class="day-row">
+                    <div class="day-label"><span>Monday</span></div>
+                    <div class="day-field">
+                        <label for="mondayPickupType">Type</label>
+                        <div class="day-select-wrap">
+                            <select name="mondayPickupType" id="mondayPickupType">
+                                <option value="bus">Bus</option>
+                                <option value="parent">Parent</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="day-field">
+                        <label for="mondayTime">Time</label>
+                        <input type="time" id="mondayTime" name="mondayTime" required>
+                        <span class="field-error" id="err-mondayTime">Please fill in this field.</span>
+                    </div>
+                    <div class="day-field">
+                        <label for="mondayLocation">Location</label>
+                        <div class="day-select-wrap">
+                            <select name="mondayLocation" id="mondayLocation">
+                                <option value="frontEntrance">Front Entrance</option>
+                                <option value="backEntrance">Back Entrance</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tuesday -->
+                <div class="day-row">
+                    <div class="day-label"><span>Tuesday</span></div>
+                    <div class="day-field">
+                        <label for="tuesdayPickupType">Type</label>
+                        <div class="day-select-wrap">
+                            <select name="tuesdayPickupType" id="tuesdayPickupType">
+                                <option value="bus">Bus</option>
+                                <option value="parent">Parent</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="day-field">
+                        <label for="tuesdayTime">Time</label>
+                        <input type="time" id="tuesdayTime" name="tuesdayTime" required>
+                        <span class="field-error" id="err-tuesdayTime">Please fill in this field.</span>
+                    </div>
+                    <div class="day-field">
+                        <label for="tuesdayLocation">Location</label>
+                        <div class="day-select-wrap">
+                            <select name="tuesdayLocation" id="tuesdayLocation">
+                                <option value="frontEntrance">Front Entrance</option>
+                                <option value="backEntrance">Back Entrance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wednesday -->
+                <div class="day-row">
+                    <div class="day-label"><span>Wednesday</span></div>
+                    <div class="day-field">
+                        <label for="wednesdayPickupType">Type</label>
+                        <div class="day-select-wrap">
+                            <select name="wednesdayPickupType" id="wednesdayPickupType">
+                                <option value="bus">Bus</option>
+                                <option value="parent">Parent</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="day-field">
+                        <label for="wednesdayTime">Time</label>
+                        <input type="time" id="wednesdayTime" name="wednesdayTime" required>
+                        <span class="field-error" id="err-wednesdayTime">Please fill in this field.</span>
+                    </div>
+                    <div class="day-field">
+                        <label for="wednesdayLocation">Location</label>
+                        <div class="day-select-wrap">
+                            <select name="wednesdayLocation" id="wednesdayLocation">
+                                <option value="frontEntrance">Front Entrance</option>
+                                <option value="backEntrance">Back Entrance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thursday -->
+                <div class="day-row">
+                    <div class="day-label"><span>Thursday</span></div>
+                    <div class="day-field">
+                        <label for="thursdayPickupType">Type</label>
+                        <div class="day-select-wrap">
+                            <select name="thursdayPickupType" id="thursdayPickupType">
+                                <option value="bus">Bus</option>
+                                <option value="parent">Parent</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="day-field">
+                        <label for="thursdayTime">Time</label>
+                        <input type="time" id="thursdayTime" name="thursdayTime" required>
+                        <span class="field-error" id="err-thursdayTime">Please fill in this field.</span>
+                    </div>
+                    <div class="day-field">
+                        <label for="thursdayLocation">Location</label>
+                        <div class="day-select-wrap">
+                            <select name="thursdayLocation" id="thursdayLocation">
+                                <option value="frontEntrance">Front Entrance</option>
+                                <option value="backEntrance">Back Entrance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friday -->
+                <div class="day-row">
+                    <div class="day-label"><span>Friday</span></div>
+                    <div class="day-field">
+                        <label for="fridayPickupType">Type</label>
+                        <div class="day-select-wrap">
+                            <select name="fridayPickupType" id="fridayPickupType">
+                                <option value="bus">Bus</option>
+                                <option value="parent">Parent</option>
+                                <option value="selfdismissal">Self Dismissal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="day-field">
+                        <label for="fridayTime">Time</label>
+                        <input type="time" id="fridayTime" name="fridayTime" required>
+                        <span class="field-error" id="err-fridayTime">Please fill in this field.</span>
+                    </div>
+                    <div class="day-field">
+                        <label for="fridayLocation">Location</label>
+                        <div class="day-select-wrap">
+                            <select name="fridayLocation" id="fridayLocation">
+                                <option value="frontEntrance">Front Entrance</option>
+                                <option value="backEntrance">Back Entrance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-area">
+            <button type="button" class="submit-btn" onclick="moduleFunction()">Submit Registration</button>
+            <p class="submit-note">All fields are required. You will receive a confirmation upon submission.</p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Saint David's School &nbsp;·&nbsp; 12 East 89th Street, New York, NY 10128</p>
+    </footer>
+
+<script type="module">
+    import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    const supabaseUrl='https://qwvnafsyqyttpzvuythm.supabase.co'
+    const supabaseKey='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3dm5hZnN5cXl0dHB6dnV5dGhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzODYzNDUsImV4cCI6MjA3Mzk2MjM0NX0.LYoI8XkrcQie4Qn7FhcuOLa_QMYq8BJ379M6F-TSD0E'
+    const supabase=createClient(supabaseUrl, supabaseKey);
+
+    function valid(email) {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return pattern.test(email);
+    }
+
+    function showError(id, message) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = message || 'Please fill in this field.';
+            el.classList.add('visible');
+            document.getElementById(id.replace('err-', '')).classList.add('invalid');
+        }
+    }
+
+    function clearError(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.remove('visible');
+            document.getElementById(id.replace('err-', '')).classList.remove('invalid');
+        }
+    }
+
+    function clearAllErrors() {
+        document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+        document.querySelectorAll('.invalid').forEach(e => e.classList.remove('invalid'));
+    }
+
+    async function insertTest() {
+        clearAllErrors();
+        let canInsert = true;
+
+        let firstName = document.getElementById('firstName').value.trim();
+        if (firstName === "") { canInsert = false; showError('err-firstName'); }
+
+        let lastName = document.getElementById('lastName').value.trim();
+        if (lastName === "") { canInsert = false; showError('err-lastName'); }
+
+        let birthdayDate = document.getElementById('birthdayDate').value;
+        if (birthdayDate === "") { canInsert = false; showError('err-birthdayDate'); }
+
+        let parentFirstName = document.getElementById('parentFirstName').value.trim();
+        if (parentFirstName === "") { canInsert = false; showError('err-parentFirstName'); }
+
+        let parentLastName = document.getElementById('parentLastName').value.trim();
+        if (parentLastName === "") { canInsert = false; showError('err-parentLastName'); }
+
+        let parentPhone = document.getElementById('parentPhone').value.trim();
+        let digitsOnly = parentPhone.replace(/\D/g, '');
+        if (digitsOnly === "") {
+            canInsert = false; showError('err-parentPhone');
+        } else if (digitsOnly.length !== 10) {
+            canInsert = false; showError('err-parentPhone', 'Please enter a valid phone number (e.g. 555-867-5309).');
+        } else {
+            parentPhone = digitsOnly;
+        }
+
+        let parentEmail = document.getElementById('parentEmail').value.trim();
+        if (parentEmail === "") {
+            canInsert = false;
+            showError('err-parentEmail', 'Please fill in this field.');
+        } else if (!valid(parentEmail)) {
+            canInsert = false;
+            showError('err-parentEmail', 'Please enter a valid email address.');
+        }
+
+        let mondayPickupType = document.getElementById('mondayPickupType').value;
+        let mondayTime = document.getElementById('mondayTime').value;
+        if (mondayTime === "") { canInsert = false; showError('err-mondayTime'); }
+        let mondayLocation = document.getElementById('mondayLocation').value;
+
+        let tuesdayPickupType = document.getElementById('tuesdayPickupType').value;
+        let tuesdayTime = document.getElementById('tuesdayTime').value;
+        if (tuesdayTime === "") { canInsert = false; showError('err-tuesdayTime'); }
+        let tuesdayLocation = document.getElementById('tuesdayLocation').value;
+
+        let wednesdayPickupType = document.getElementById('wednesdayPickupType').value;
+        let wednesdayTime = document.getElementById('wednesdayTime').value;
+        if (wednesdayTime === "") { canInsert = false; showError('err-wednesdayTime'); }
+        let wednesdayLocation = document.getElementById('wednesdayLocation').value;
+
+        let thursdayPickupType = document.getElementById('thursdayPickupType').value;
+        let thursdayTime = document.getElementById('thursdayTime').value;
+        if (thursdayTime === "") { canInsert = false; showError('err-thursdayTime'); }
+        let thursdayLocation = document.getElementById('thursdayLocation').value;
+
+        let fridayPickupType = document.getElementById('fridayPickupType').value;
+        let fridayTime = document.getElementById('fridayTime').value;
+        if (fridayTime === "") { canInsert = false; showError('err-fridayTime'); }
+        let fridayLocation = document.getElementById('fridayLocation').value;
+
+        if (canInsert) {
+            const {data, error}=await supabase
+            .from('test2')
+            .insert({name:firstName, last_name:lastName, birthday_date:birthdayDate, 
+                parent_first_name:parentFirstName, parent_last_name:parentLastName, 
+                parent_phone:parentPhone, parent_email:parentEmail, monday_pickup_type:mondayPickupType, 
+                monday_time:mondayTime, monday_location:mondayLocation, 
+                tuesday_pickup_type:tuesdayPickupType, tuesday_time:tuesdayTime, 
+                tuesday_location:tuesdayLocation, wednesday_pickup_type:wednesdayPickupType, 
+                wednesday_time:wednesdayTime, wednesday_location:wednesdayLocation, 
+                thursday_pickup_type:thursdayPickupType, thursday_time:thursdayTime, 
+                thursday_location:thursdayLocation, friday_pickup_type:fridayPickupType, 
+                friday_time:fridayTime, friday_location:fridayLocation
+            });
+
+            if (error) {
+                console.error('Supabase error:', error.message);
+                alert('Submission failed: ' + error.message + '\n\nPlease try again or contact the school.');
+            } else {
+                console.log('Success!', data);
+                const params = new URLSearchParams({
+                    childFirst: firstName,
+                    childLast: lastName,
+                    parentFirst: parentFirstName,
+                    parentLast: parentLastName,
+                    email: parentEmail
+                });
+                window.location.href = 'registration-success.html?' + params.toString();
+            }
+        } else {
+            // Errors are shown inline above — scroll to the first one
+            const firstError = document.querySelector('.field-error.visible');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+    window.moduleFunction = insertTest;
+
+    function formatPhone(input) {
+        // Strip anything that isn't a digit
+        let digits = input.value.replace(/\D/g, '');
+        // Auto-insert dashes at positions 3 and 6
+        if (digits.length > 6) {
+            digits = digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6,10);
+        } else if (digits.length > 3) {
+            digits = digits.slice(0,3) + '-' + digits.slice(3,6);
+        }
+        input.value = digits;
+    }
+    window.formatPhone = formatPhone;
+</script>
+
+</body>
+</html>
